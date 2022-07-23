@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>服务URL信息</title>
+</head>
+<body style="margin: 0; padding: 0">
+    <div style="
+        background-image: url('https://images.unsplash.com/photo-1520209759809-a9bcb6cb3241?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80');
+        width:100vw;
+        height:100vh;
+        margin: 0;
+        padding: 0">
+        <div style="display: flex;justify-content: center;padding-top: 30vh">
+             {% for row in env_data %}
+            <button style="font-size: 3rem;
+                background-color: transparent;
+                border: none;
+                margin-right: 15px;
+                color: white">
+                <a href="{% url 'url_view' row.id %}" style="color: white">{{ row.name }} </a>
+            </button>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

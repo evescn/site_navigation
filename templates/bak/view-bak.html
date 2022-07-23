@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .hide{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>URL环境列表</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>环境</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in env_data %}
+                <tr id="{{ row.id }}">
+                    <td >{{ forloop.counter }}</td>
+                    <td id="name">{{ row.name }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+    <h1>URL服务列表</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>服务</th>
+                <th>url地址</th>
+                <th>用户</th>
+                <th>环境</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in svc_data %}
+                <tr id="{{ row.sid }}">
+                    <td >{{ forloop.counter }}</td>
+                    <td id="name">{{ row.name }}</td>
+                    <td id="url" > <a href="http://{{ row.url }}" target="_blank" rel="noreferrer"> {{ row.url }} </a></td>
+                    <td id="user">{{ row.password_id.user }}</td>
+                    <td id="env_name">{{ row.env_id.name }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script src="/jquery-1.12.4.js"></script>
+    <script>
+    </script>
+</body>
+</html>

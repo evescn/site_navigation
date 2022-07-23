@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--引入BootStrap的样式，提供了大量的样式-->
+    <link rel="stylesheet" href="/static/bootstrap-3.4.1-dist/css/bootstrap.min.css">
+    <style>
+        .body {
+            font-size: 14px;
+            line-height: 2.42857143;
+        }
+        .container {
+            margin: 0 auto;
+            {#margin-top: 35vh;#}
+            width:70vw;
+        }
+    </style>
+</head>
+<body>
+
+<br>
+<br>
+
+<div class="panel panel-default container">
+    <!-- Default panel contents -->
+    <div class="panel-heading">环境列表</div>
+    <div class="panel-body">
+
+    </div>
+
+    <!-- Table -->
+    <table class="table">
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>ID</th>
+            <th>环境列表</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for row in env_data %}
+            <tr id="{{ row.sid }}">
+                <td >{{ forloop.counter }}</td>
+                <td id="id">{{ row.id }}</td>
+                <td id="name">
+                    <a href="{% url 'url_view' row.id %}" > {{ row.name }} </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<br>
+<br>
+
+<div class="panel panel-default container">
+    <!-- Default panel contents -->
+    <div class="panel-heading">URL服务列表</div>
+    <div class="panel-body">
+
+    </div>
+
+    <!-- Table -->
+    <table class="table">
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>ID</th>
+            <th>服务</th>
+            <th>url地址</th>
+            <th>账户</th>
+            <th>密码</th>
+            <th>环境</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for row in svc_data %}
+            <tr id="{{ row.sid }}">
+                <td >{{ forloop.counter }}</td>
+                <td id="sid">{{ row.sid }}</td>
+                <td id="name">{{ row.name }}</td>
+                <td id="url" > <a href="http://{{ row.url }}" target="_blank" rel="noreferrer"> {{ row.url }} </a></td>
+                <td id="user">{{ row.password_id.user }}</td>
+                <td id="user">{{ row.password_id.password }}</td>
+                <td id="env_name">{{ row.env_id.name }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+<script src="/static/jquery-1.12.4.js"></script>
+
+<!--引入BootStrap的js，提供了一些动态效果。注意：必须先引入jQuery-->
+<script src="/static/bootstrap-3.4.1-dist/js/bootstrap.js"></script>
+</body>
+</html>

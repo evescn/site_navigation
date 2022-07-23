@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>管理后台</title>
+    <!--引入BootStrap的样式，提供了大量的样式-->
+    <link rel="stylesheet" href="/static/bootstrap-3.4.1-dist/css/bootstrap.min.css">
+
+    <style>
+        .body {
+            font-size: 14px;
+            line-height: 2.42857143;
+        }
+        .container {
+            margin: 0 auto;
+            margin-top: 15vh;
+            width:30vw;
+        }
+    </style>
+</head>
+<body>
+
+<form id="add_form" class="container">
+    <h3>添加服务</h3>
+    <div class="form-group">
+        <label for="exampleInputPassword1" class="body" >服务名称</label>
+        <input type="text" class="form-control" id="name" placeholder="服务名称" name="name" value="">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputPassword1" class="body" >url地址</label>
+        <input type="text" class="form-control" id="url" placeholder="url地址" name="url" value="">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputPassword1" class="body" >用户名</label>
+        <input type="text" class="form-control" id="user" placeholder="用户名" name="user" value="">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputPassword1" class="body" >密码</label>
+        <input type="text" class="form-control" id="password" placeholder="密码" name="password" value="">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputPassword1" class="body" >环境名称</label>
+
+        <select id="env_id" name="env_id" class="form-control">
+            {% for op in env_list %}
+                <option value={{ op.id }}>{{ op.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <button type="button" class="btn btn-default" >
+        <a id="ajax_add_submit" >提交</a>
+    </button>
+    <button type="submit" class="btn btn-default">
+        <a href="{% url 'url_ops' %}">取消</a>
+    </button>
+</form>
+
+<script src="/static/jquery-1.12.4.js"></script>
+<!--引入BootStrap的js，提供了一些动态效果。注意：必须先引入jQuery-->
+<script src="/static/bootstrap-3.4.1-dist/js/bootstrap.js"></script>
+<script>
+    $(function () {
+        $('#ajax_add_submit').click(function () {
+            $.ajax({
+                url: '{% url 'url_add_svc' %}',
+                type: 'POST',
+                data: $('#add_form').serialize(),
+                dataType: 'JSON',
+                traditional: true,
+                success: function (data) {
+                    console.log(data);
+                    if(data.status){
+                        location.href = '{% url 'url_ops' %}';
+                    }else{
+                        $('#error').text(data.eror);
+                        location.href = '{% url 'url_ops' %}';
+                    }
+                }
+            })
+        });
+    })
+</script>
+</body>
+</html>
