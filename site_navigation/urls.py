@@ -21,6 +21,7 @@ from django.conf.urls import url
 
 
 urlpatterns = [
+    path('login/', views.login, name='login'),
     path('ops/', views.ops, name='url_ops'),
     re_path('ops/(?P<eid>\d+)', views.ops, name='url_ops'),
 
