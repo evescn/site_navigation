@@ -4,7 +4,53 @@ from app import models
 import json
 from django.views.decorators.csrf import csrf_exempt
 
+
 # Create your views here.
+
+def login_required(func):
+    def inner(request, *args, **kwargs):
+        # is_login = request.COOKIES.get('is_login')
+        # is_login = request.get_signed_cookie('is_login',salt='xxxx',default='')
+        is_login = request.session.get('is_login')
+        print(is_login, type(is_login))
+        if is_login != 1:
+            # http://127.0.0.1:8000/app01/author/
+            url = request.path_info
+            return redirect("{}?return={}".format(reverse('login'), url))
+        print(request.session.session_key)
+        ret = func(request, *args, **kwargs)
+
+        return ret
+
+    return inner
+
+
+def login(request):
+    request.session.clear_expired()
+    print('123')
+    if request.method == 'POST':
+        user = request.POST.get('user')
+        pwd = request.POST.get('pwd')
+        if user == 'alex' and pwd == '123':
+            return_url = request.GET.get('return')
+            if return_url:
+                response = redirect(return_url)
+            else:
+                response = redirect(reverse('url_view'))
+
+            # response.set_cookie('is_login', '1')
+            # response.set_signed_cookie('is_login', '1',salt='xxxx')
+            request.session['is_login'] = 1  # 设置数据
+            # request.session['user'] = models.Publisher(name='xxx')
+            # 设置会话Session和Cookie的超时时间
+            # request.session.set_expiry(5)
+
+            return response
+    return render(request, 'login.html')
+
+
+def login(request):
+    return render(request, 'login.html')
 
 
 def admin(request):
@@ -175,7 +221,8 @@ def edit_svc(request, sid):
         env_list = models.Env.objects.all()
         svc_info = models.Service.objects.get(sid=sid)
         password_info = models.Password.objects.get(id=svc_info.password_id_id)
-        return render(request, 'edit_svc.html', {'svc_info': svc_info, 'env_list': env_list, 'password_info': password_info})
+        return render(request, 'edit_svc.html',
+                      {'svc_info': svc_info, 'env_list': env_list, 'password_info': password_info})
 
     elif request.method == 'POST':
         ret = {'status': True, 'error': None, 'data': None}
@@ -263,4 +310,3 @@ def view(request, eid):
         return render(request, 'view.html', {'env_data': env_data, 'svc_data': svc_data})
     else:
         print('host page error!')
-
