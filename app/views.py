@@ -36,7 +36,7 @@ def login(request):
             if return_url:
                 response = redirect(return_url)
             else:
-                response = redirect(reverse('url_view'))
+                response = redirect(reverse('url_ops'))
 
             # response.set_cookie('is_login', '1')
             # response.set_signed_cookie('is_login', '1',salt='xxxx')
@@ -46,10 +46,6 @@ def login(request):
             # request.session.set_expiry(5)
 
             return response
-    return render(request, 'login.html')
-
-
-def login(request):
     return render(request, 'login.html')
 
 
