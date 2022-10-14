@@ -20,6 +20,7 @@
 </head>
 <body>
 <form id="edit_form" class="container">
+    {% csrf_token %}
     <h3>修改环境信息</h3>
     <div class="form-group">
         <label for="exampleInputEmail1" class="body">环境 ID</label>

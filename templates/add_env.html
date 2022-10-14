@@ -21,6 +21,7 @@
 <body>
 
 <form id="add_form" class="container">
+    {% csrf_token %}
     <h3>添加环境</h3>
     <div class="form-group">
         <label for="exampleInputPassword1" class="body" >环境名称</label>
@@ -44,8 +45,10 @@
                 url: '{% url 'url_add_env' %}',
                 type: 'POST',
                 data: $('#add_form').serialize(),
+
                 dataType: 'JSON',
                 traditional: true,
+
                 success: function (data) {
                     console.log(data);
                     if(data.status){

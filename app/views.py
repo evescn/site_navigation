@@ -2,12 +2,9 @@ from django.shortcuts import render, reverse, redirect
 from django.shortcuts import HttpResponse
 from app import models
 import json
-from django.views.decorators.csrf import csrf_exempt
 
 
-# Create your views here.
-
-def login_required(func):
+def login_required(view_func):
     def inner(request, *args, **kwargs):
         # is_login = request.COOKIES.get('is_login')
         # is_login = request.get_signed_cookie('is_login',salt='xxxx',default='')
@@ -17,8 +14,8 @@ def login_required(func):
             # http://127.0.0.1:8000/app01/author/
             url = request.path_info
             return redirect("{}?return={}".format(reverse('login'), url))
-        print(request.session.session_key)
-        ret = func(request, *args, **kwargs)
+        # print(request.session.session_key)
+        ret = view_func(request, *args, **kwargs)
 
         return ret
 
@@ -27,7 +24,7 @@ def login_required(func):
 
 def login(request):
     request.session.clear_expired()
-    print('123')
+    # print('123')
     if request.method == 'POST':
         user = request.POST.get('user')
         pwd = request.POST.get('pwd')
@@ -59,6 +56,7 @@ def admin(request):
         print('host page error!')
 
 
+@login_required
 def ops(request, eid=0):
     if request.method == 'GET':
         env_data = models.Env.objects.all()
@@ -70,7 +68,7 @@ def ops(request, eid=0):
         print('host page error!')
 
 
-@csrf_exempt
+@login_required
 def add_env(request):
     if request.method == 'GET':
         return render(request, 'add_env.html')
@@ -95,7 +93,7 @@ def add_env(request):
         return HttpResponse(json.dumps(ret))
 
 
-@csrf_exempt
+@login_required
 def edit_env(request, id):
     print(id)
     print(request.method)
@@ -136,7 +134,7 @@ def edit_env(request, id):
         return HttpResponse(json.dumps(ret))
 
 
-@csrf_exempt
+@login_required
 def ajax_del_env(request, id):
     print(id)
     if request.method == 'GET':
@@ -169,7 +167,7 @@ def ajax_del_env(request, id):
         return HttpResponse(json.dumps(ret))
 
 
-@csrf_exempt
+@login_required
 def add_svc(request):
     if request.method == 'GET':
         env_list = models.Env.objects.all()
@@ -210,7 +208,7 @@ def add_svc(request):
         return HttpResponse(json.dumps(ret))
 
 
-@csrf_exempt
+@login_required
 def edit_svc(request, sid):
     # print(sid)
     if request.method == 'GET':
@@ -264,7 +262,7 @@ def edit_svc(request, sid):
         return HttpResponse(json.dumps(ret))
 
 
-@csrf_exempt
+@login_required
 def ajax_del_svc(request, sid):
     print(sid)
     svc_info = models.Service.objects.get(sid=sid)
