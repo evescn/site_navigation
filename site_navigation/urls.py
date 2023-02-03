@@ -37,5 +37,6 @@ urlpatterns = [
 
     # 定义默认访问路由，表示输入任意url路径
     re_path(r'view/(?P<eid>\d+)', views.view, name='url_view'),
+
     url(r'^$', views.admin, name='url_admin'),
 ]

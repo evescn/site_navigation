@@ -67,7 +67,7 @@
         <thead>
         <tr>
             <th>序号</th>
-            <th>ID</th>
+            <th style="display:none">ID</th>
             <th>服务</th>
             <th>url地址</th>
             <th>账户</th>
@@ -79,7 +79,7 @@
         {% for row in svc_data %}
             <tr id="{{ row.sid }}">
                 <td >{{ forloop.counter }}</td>
-                <td id="sid">{{ row.sid }}</td>
+                <td id="sid" style="display:none" >{{ row.sid }}</td>
                 <td id="name">{{ row.name }}</td>
                 <td id="url" > <a href="http://{{ row.url }}" target="_blank" rel="noreferrer"> {{ row.url }} </a></td>
                 <td id="user">{{ row.password_id.user }}</td>
