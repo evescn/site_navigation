@@ -20,6 +20,7 @@
 </head>
 <body>
 <form id="del_form" class="container">
+    {% csrf_token %}
     <h3>删除服务</h3>
     <div class="form-group">
         <label for="exampleInputPassword1" class="body" >SID</label>

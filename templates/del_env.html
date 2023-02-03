@@ -20,6 +20,7 @@
 </head>
 <body>
 <form id="del_form" class="container">
+    {% csrf_token %}
     <h3>删除环境</h3>
     <div class="form-group">
         <label for="exampleInputEmail1" class="body">环境 ID</label>
