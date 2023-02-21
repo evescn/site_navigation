@@ -26,17 +26,18 @@ urlpatterns = [
     re_path('ops/(?P<eid>\d+)', views.ops, name='url_ops'),
 
     path('add_env/', views.add_env, name='url_add_env'),
-    re_path('edit_env/(?P<id>\d+)', views.edit_env, name='url_edit_env'),
-    re_path('del_env/(?P<id>\d+)', views.ajax_del_env, name='url_del_env'),
+    re_path('edit_env/(?P<eid>\d+)', views.edit_env, name='url_edit_env'),
+    re_path('del_env/(?P<eid>\d+)', views.del_env, name='url_del_env'),
 
-    path('add_svc/', views.add_svc, name='url_add_svc'),
-    re_path('edit_svc/(?P<sid>\d+)', views.edit_svc, name='url_edit_svc'),
-    re_path('del_svc/(?P<sid>\d+)', views.ajax_del_svc, name='url_del_svc'),
+    re_path('add_svc/(?P<eid>\d+)', views.add_svc, name='url_add_svc'),
+    re_path('edit_svc/(?P<eid>\d+)/(?P<sid>\d+)', views.edit_svc, name='url_edit_svc'),
+    re_path('del_svc/(?P<eid>\d+)/(?P<sid>\d+)', views.del_svc, name='url_del_svc'),
 
     # path('admin_admin/', admin.site.urls),
 
     # 定义默认访问路由，表示输入任意url路径
     re_path(r'view/(?P<eid>\d+)', views.view, name='url_view'),
 
-    url(r'^$', views.admin, name='url_admin'),
+    url(r'^$', views.view, name='url_view'),
+    # url(r'^$', views.admin, name='url_admin'),
 ]
