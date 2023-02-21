@@ -1,7 +1,7 @@
 from django.shortcuts import render, reverse, redirect
 from app import models
 from app.forms import EnvForm, ServiceForm, PasswordForm
-import json
+from app import settings
 
 
 def login_required(view_func):
@@ -28,7 +28,7 @@ def login(request):
     if request.method == 'POST':
         user = request.POST.get('user')
         pwd = request.POST.get('pwd')
-        if user == 'root' and pwd == 'evescn':
+        if user == settings.Admin_User and pwd == settings.Admin_Password:
             return_url = request.GET.get('return')
             if return_url:
                 response = redirect(return_url)
@@ -40,7 +40,7 @@ def login(request):
             request.session['is_login'] = 1  # 设置数据
             # request.session['user'] = models.Publisher(name='xxx')
             # 设置会话Session和Cookie的超时时间
-            request.session.set_expiry(50400)
+            request.session.set_expiry(settings.Session_Time)
 
             return response
     return render(request, 'login.html')
