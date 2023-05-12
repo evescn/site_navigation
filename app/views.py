@@ -1,60 +1,56 @@
 from django.shortcuts import render, reverse, redirect
 from app import models
 from app.forms import EnvForm, ServiceForm, PasswordForm
-from app import settings
+# from app import settings
+from config import config
 
-
-def login_required(view_func):
-    def inner(request, *args, **kwargs):
-        # is_login = request.COOKIES.get('is_login')
-        # is_login = request.get_signed_cookie('is_login',salt='xxxx',default='')
-        is_login = request.session.get('is_login')
-        print(is_login, type(is_login))
-        if is_login != 1:
-            # http://127.0.0.1:8000/app01/author/
-            url = request.path_info
-            return redirect("{}?return={}".format(reverse('login'), url))
-        # print(request.session.session_key)
-        ret = view_func(request, *args, **kwargs)
-
-        return ret
-
-    return inner
+# 使用 middlewares 进行全局登陆校验，注销此方法
+# def login_required(view_func):
+#     def inner(request, *args, **kwargs):
+#         is_login = request.session.get('is_login')
+#         print(is_login, type(is_login))
+#         if is_login != "login":
+#             url = request.path_info
+#             return redirect("{}?return={}".format(reverse('login'), url))
+#         # print(request.session.session_key)
+#         ret = view_func(request, *args, **kwargs)
+#
+#         return ret
+#
+#     return inner
 
 
 def login(request):
+    # 清理过期 session
     request.session.clear_expired()
+    # 清理 session 不论是否过期
+    # request.session.clear()
 
     if request.method == 'POST':
         user = request.POST.get('user')
         pwd = request.POST.get('pwd')
-        if user == settings.Admin_User and pwd == settings.Admin_Password:
+        if user == config.Admin_User and pwd == config.Admin_Password:
             return_url = request.GET.get('return')
             if return_url:
                 response = redirect(return_url)
             else:
                 response = redirect(reverse('url_ops'))
-
-            # response.set_cookie('is_login', '1')
-            # response.set_signed_cookie('is_login', '1',salt='xxxx')
-            request.session['is_login'] = 1  # 设置数据
-            # request.session['user'] = models.Publisher(name='xxx')
+            request.session['is_login'] = 'login'  # 设置数据
             # 设置会话Session和Cookie的超时时间
-            request.session.set_expiry(settings.Session_Time)
+            request.session.set_expiry(config.Session_Time)
 
             return response
     return render(request, 'login.html')
 
 
-def admin(request):
-    if request.method == 'GET':
-        env_data = models.Env.objects.all()
-        # svc_data = models.Service.objects.all()
-
-        return render(request, 'admin.html', {'env_data': env_data})
-    else:
-        print('host page error!')
-
+# def admin(request):
+#     if request.method == 'GET':
+#         env_data = models.Env.objects.all()
+#         # svc_data = models.Service.objects.all()
+#
+#         return render(request, 'admin.html', {'env_data': env_data})
+#     else:
+#         print('host page error!')
 
 def view(request, eid=0):
     if request.method == 'GET':
@@ -70,7 +66,7 @@ def view(request, eid=0):
         print('host page error!')
 
 
-@login_required
+# @login_required
 def ops(request, eid=0):
     if request.method == 'GET':
         env_data = models.Env.objects.all()
@@ -91,7 +87,6 @@ def ops(request, eid=0):
         print('host page error!')
 
 
-@login_required
 def add_env(request):
     env_data = models.Env.objects.all()
     form_obj = EnvForm()
@@ -104,7 +99,6 @@ def add_env(request):
     return render(request, 'ch_env.html', {'env_data': env_data, 'form_obj': form_obj})
 
 
-@login_required
 def edit_env(request, eid):
     env_data = models.Env.objects.all()
     obj = models.Env.objects.filter(id=eid).first()
@@ -118,7 +112,6 @@ def edit_env(request, eid):
     return render(request, 'ch_env.html', {'env_data': env_data, 'form_obj': form_obj})
 
 
-@login_required
 def del_env(request, eid):
     env_data = models.Env.objects.all()
     obj = models.Env.objects.filter(id=eid).first()
@@ -131,7 +124,6 @@ def del_env(request, eid):
     return render(request, 'del_env.html', {'env_data': env_data, 'form_env_obj': form_env_obj, 'eid': eid})
 
 
-@login_required
 def add_svc(request, eid):
     env_data = models.Env.objects.all()
     form_svc_obj = ServiceForm()
@@ -167,7 +159,6 @@ def add_svc(request, eid):
     )
 
 
-@login_required
 def edit_svc(request, eid, sid):
     env_data = models.Env.objects.all()
     svc_obj = models.Service.objects.filter(sid=sid).first()
@@ -206,7 +197,6 @@ def edit_svc(request, eid, sid):
     )
 
 
-@login_required
 def del_svc(request, eid, sid):
     env_data = models.Env.objects.all()
     svc_info = models.Service.objects.get(sid=sid)

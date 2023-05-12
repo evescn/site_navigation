@@ -49,7 +49,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # 'app.middlewares.MD1',
+    'app.middlewares.LoginRequiredMiddleware',
 ]
 
 ROOT_URLCONF = 'site_navigation.urls'
