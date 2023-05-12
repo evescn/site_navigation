@@ -102,9 +102,15 @@ http://ip:8080/
 ```
 
 ### 后台地址
+
 ```shell
 - http://ip:8080/ops/ （后台页面需要认证登陆）
 - 默认账号：admin
 - 默认密码：admin
 ```
-> 默认账号密码，session缓存时间修改文件： /site_navigation/app/settings.py
+
+![login](./image/login.png)
+
+![web](./image/web.png)
+
+> 默认账号密码，session缓存时间修改文件： /site_navigation/config/settings.py
