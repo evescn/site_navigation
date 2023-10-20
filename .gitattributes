@@ -1,13 +1,26 @@
-# Auto detect text files and perform LF normalization
-#* text=auto
-*.js linguist-language=html
-*.java linguist-language=Python
-*.md linguist-language=Python
-*.yml linguist-language=Python
-*.html linguist-language=html
-*.js linguist-language=html
-*.xml linguist-language=html
-*.css linguist-language=html
-*.sql linguist-language=sql
-*.uml linguist-language=Python
-*.cmd linguist-language=Python
+# Intellij project files
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# go.gitignore from https://github.com/github/gitignore/blob/master/Go.gitignore
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Dependency directories (remove the comment below to include it)
+# 如果使用go vendor 进行构建代码
+# go.mod
+# go.sum
+# vendor/
+config/
