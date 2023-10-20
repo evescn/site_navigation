@@ -9,9 +9,15 @@ $ git clone https://github.com/evescn/site_navigation.git
 
 $ cd site_navigation
 
+$ git checkout master
+
 # 打包 Docker 镜像
-$ docker build -t harbor.xxx.cn/devops/site_navigation:v1.0 -f Dockerfile .
-$ docker push harbor.xxx.cn/devops/site_navigation:v1.0
+$ docker build -t harbor.xxx.cn/devops/site_navigation:v1.1 -f Dockerfile .
+$ docker push harbor.xxx.cn/devops/site_navigation:v1.1
+
+# 第二种打包 Docker 镜像
+$ chmod a+x ./build
+$ ./build 1 # 版本号信息
 ```
 
 ## 2. 服务部署
@@ -95,22 +101,6 @@ $ kubectl apply -f k8s.yaml
 
 ## 3. 服务访问
 
-### 服务地址
+> 项目前后端分离，需要部署前端后才能访问
+> [前端地址](https://github.com/evescn/site_navigation_fe)
 
-```shell
-http://ip:8080/
-```
-
-### 后台地址
-
-```shell
-- http://ip:8080/ops/ （后台页面需要认证登陆）
-- 默认账号：admin
-- 默认密码：admin
-```
-
-![login](./image/login.png)
-
-![web](./image/web.png)
-
-> 默认账号密码，session缓存时间修改文件： /site_navigation/config/settings.py
