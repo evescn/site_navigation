@@ -43,7 +43,7 @@ func (*env) List(envName string, page, limit int) (*Envs, error) {
 	//数据库查询，再查数据
 	//当limit=10， total一定是10，因为count会在过滤和分页后执行
 	tx = db.GORM.Model(model.Env{}).
-		Where("env_name like ?", "%"+envName+"%").
+		Where("name like ?", "%"+envName+"%").
 		Limit(limit).
 		Offset(startSet).
 		Order("name").
@@ -59,21 +59,21 @@ func (*env) List(envName string, page, limit int) (*Envs, error) {
 	}, nil
 }
 
-// Get 查询单个
-func (*env) Get(envName uint) (*model.Env, bool, error) {
-	data := new(model.Env)
-	tx := db.GORM.Where("name = ?", envName).First(&data)
-	if errors.Is(tx.Error, gorm.ErrRecordNotFound) {
-		return nil, false, nil
-	}
-
-	if tx.Error != nil {
-		logger.Error("查询Env信息失败," + tx.Error.Error())
-		return nil, false, errors.New("查询Env信息失败," + tx.Error.Error())
-	}
-
-	return data, true, nil
-}
+//// Get 查询单个
+//func (*env) Get(envName uint) (*model.Env, bool, error) {
+//	data := new(model.Env)
+//	tx := db.GORM.Where("name = ?", envName).First(&data)
+//	if errors.Is(tx.Error, gorm.ErrRecordNotFound) {
+//		return nil, false, nil
+//	}
+//
+//	if tx.Error != nil {
+//		logger.Error("查询Env信息失败," + tx.Error.Error())
+//		return nil, false, errors.New("查询Env信息失败," + tx.Error.Error())
+//	}
+//
+//	return data, true, nil
+//}
 
 // Has 根据环境名查询，用于代码层去重，查询账号信息
 func (*env) Has(envName string) (*model.Env, bool, error) {
@@ -84,30 +84,30 @@ func (*env) Has(envName string) (*model.Env, bool, error) {
 	}
 
 	if tx.Error != nil {
-		logger.Error("根据环境名查询Env失败," + tx.Error.Error())
-		return nil, false, errors.New("根据环境名查询Env失败," + tx.Error.Error())
+		logger.Error("根据名称查询Env失败," + tx.Error.Error())
+		return nil, false, errors.New("根据名称查询Env失败," + tx.Error.Error())
 	}
 
 	return data, true, nil
 }
 
-// Update 更新
-func (*env) Update(u *model.Env) error {
-	tx := db.GORM.Model(&model.Env{}).Where("id = ?", u.ID).Updates(&u)
+// Add 新增
+func (*env) Add(e *model.Env) error {
+	tx := db.GORM.Create(&e)
 	if tx.Error != nil {
-		logger.Error("更新Env信息失败," + tx.Error.Error())
-		return errors.New("更新Env信息失败," + tx.Error.Error())
+		logger.Error("新增Env信息失败," + tx.Error.Error())
+		return errors.New("新增Env信息失败," + tx.Error.Error())
 	}
 
 	return nil
 }
 
-// Add 新增
-func (*env) Add(u *model.Env) error {
-	tx := db.GORM.Create(&u)
+// Update 更新
+func (*env) Update(e *model.Env) error {
+	tx := db.GORM.Model(&model.Env{}).Where("id = ?", e.ID).Updates(&e)
 	if tx.Error != nil {
-		logger.Error("新增Env信息失败," + tx.Error.Error())
-		return errors.New("新增Env信息失败," + tx.Error.Error())
+		logger.Error("更新Env信息失败," + tx.Error.Error())
+		return errors.New("更新Env信息失败," + tx.Error.Error())
 	}
 
 	return nil

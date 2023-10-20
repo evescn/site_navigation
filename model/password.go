@@ -3,9 +3,9 @@ package model
 import "time"
 
 type Password struct {
-	ID       uint   `json:"id" gorm:"primary_key"`
-	Name     string `json:"name"`
-	Password string `json:"password"`
+	ID       uint   `json:"id" gorm:"primary_key" gorm:"column:id"`
+	PName    string `json:"p_name" gorm:"column:p_name"`
+	Password string `json:"p_password"`
 
 	CreatedAt time.Time
 	UpdatedAt time.Time

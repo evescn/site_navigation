@@ -6,6 +6,7 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/wonderivan/logger"
 	"site_navigation/config"
+	"site_navigation/model"
 )
 
 var (
@@ -43,7 +44,17 @@ func Init() {
 	GORM.DB().SetConnMaxLifetime(config.MaxLifeTime)
 
 	//isInit = true
-	//GORM.AutoMigrate(model.Env{}, model.Password{}, model.Service{})
+	GORM.AutoMigrate(
+		model.Env{},
+		model.Password{},
+		model.Service{},
+		model.Menu{},
+		model.SubMenu{},
+		model.SubSubMenu{},
+		model.Role{},
+		model.RoleMenuRelation{},
+		model.User{},
+	)
 	logger.Info("数据库连接成功")
 }
 

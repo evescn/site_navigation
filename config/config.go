@@ -3,8 +3,7 @@ package config
 import "time"
 
 const (
-	WsAddr     = "0.0.0.0:8080"
-	ListenAddr = "0.0.0.0:9000"
+	ListenAddr = "0.0.0.0:8080"
 
 	//数据库配置
 	DbType = "mysql"

@@ -3,9 +3,9 @@ package model
 import "time"
 
 type Env struct {
-	ID       uint   `json:"id" gorm:"primary_key"`
-	Name     string `json:"name"`
-	Describe string `json:"describe"`
+	ID          uint   `json:"id" gorm:"primary_key"`
+	Name        string `json:"name" gorm:"unique;not null"`
+	Description string `json:"description"`
 
 	CreatedAt time.Time
 	UpdatedAt time.Time

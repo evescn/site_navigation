@@ -3,12 +3,12 @@ package model
 import "time"
 
 type Service struct {
-	ID       uint   `json:"id" gorm:"primary_key"`
-	Name     string `json:"name"`
-	Url      string `json:"url"`
-	Describe string `json:"describe"`
-	Eid      uint   `json:"eid"`
-	Pid      uint   `json:"pid"`
+	ID          uint   `json:"id" gorm:"primary_key"`
+	Name        string `json:"svc_name"`
+	Url         string `json:"url"`
+	Description string `json:"description"`
+	Eid         uint   `json:"eid"`
+	Pid         uint   `json:"pid"`
 
 	CreatedAt time.Time
 	UpdatedAt time.Time
