@@ -4,17 +4,31 @@
 
 ## 1. 服务镜像打包
 
+### 克隆代码
+
 ```shell
 $ git clone https://github.com/evescn/site_navigation.git
-
 $ cd site_navigation
-
 $ git checkout master
+```
+
+### 打包镜像
+
+> 方法1 打包 Docker 镜像
+
+```shell
+# 第一种打包 Docker 镜像
+# 编译项目
+$ CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o app .
 
 # 打包 Docker 镜像
 $ docker build -t harbor.xxx.cn/devops/site_navigation:v1.1 -f Dockerfile .
 $ docker push harbor.xxx.cn/devops/site_navigation:v1.1
+```
 
+> 方法2 打包 Docker 镜像
+
+```shell
 # 第二种打包 Docker 镜像
 $ chmod a+x ./build
 $ ./build 1 # 版本号信息
@@ -74,28 +88,9 @@ spec:
   selector:
     app: site-navigation
   type: NodePort
+```
 
----
-# ingress
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: site-navigation
-  namespace: devops
-spec:
-  ingressClassName: nginx
-  rules:
-  - host: site.evescn.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: site-navigation
-            port:
-              number: 80
-
+```shell
 $ kubectl apply -f k8s.yaml
 ```
 
